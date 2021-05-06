@@ -1,9 +1,9 @@
 'use strict';
 
 class Airport {
-  constructor() {
+  constructor(capacity = 1) {
     this.hangar = []
-    this.capacity = 1
+    this.capacity = capacity
   }
   land(plane){
     if (this.hangar.length >= this.capacity) {
