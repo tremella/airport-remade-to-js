@@ -27,4 +27,12 @@ describe('Airport', () => {
     airport.land(new Plane())
     expect( function() { airport.land(plane); } ).toThrow(new Error("airport full"));
   });
+
+  it('recognises the isStormy attribute', () => {
+    let a2 = new Airport(1,true)
+    let a3 = new Airport(1,false)
+    expect(a2.isStormy).toEqual(true)
+    expect(a3.isStormy).toEqual(false)
+  });
+
 });

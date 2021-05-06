@@ -1,9 +1,10 @@
 'use strict';
 
 class Airport {
-  constructor(capacity = 1) {
+  constructor(capacity = 1, weather = ((new Weather).isStormy())) {
     this.hangar = []
     this.capacity = capacity
+    this.isStormy = weather
   }
   land(plane){
     if (this.hangar.length >= this.capacity) {
