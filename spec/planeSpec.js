@@ -1,9 +1,14 @@
-// 'use strict';
+'use strict';
 
-// describe('Plane', () => {
-//   let plane = Plane.new;
+describe('Plane', () => {
+  let plane;
 
-//   it('should be able to land', () => {
+  beforeEach(() => {
+    plane = new Plane();
+  })
 
-//   });
-// });
+  it('should have a valid id', () => {
+    expect(plane.id).toBeGreaterThan(12000)
+    expect(plane.id).toBeLessThan(122000)
+  });
+});

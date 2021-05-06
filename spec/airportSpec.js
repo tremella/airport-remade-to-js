@@ -1,38 +1,46 @@
 'use strict';
 
 describe('Airport', () => {
-  let airport;
+  let stormyAirport;
+  let niceAirport;
   let plane;
   beforeEach(() => {
-    airport = new Airport();
+    stormyAirport = new Airport(1,true);
+    niceAirport = new Airport(1,false);
     plane = new Plane();
   });
 
   it('should be empty before landing', () => {
-    expect(airport.hangar).toEqual([])
+    expect(niceAirport.hangar).toEqual([])
   });
 
   it('allows a plane to land', () => {
-    airport.land(plane)
-    expect(airport.hangar).toContain(plane);
+    niceAirport.land(plane)
+    expect(niceAirport.hangar).toContain(plane);
   });
 
   it('launches plane, becomes empty',()=>{
-    airport.land(plane)
-    airport.launch(plane)
-    expect(airport.hangar).not.toContain(plane)
+    niceAirport.land(plane)
+    niceAirport.launch(plane)
+    expect(niceAirport.hangar).not.toContain(plane)
   });
 
   it('raises ERR if a landing would exceed capacity (of 1)',()=>{
-    airport.land(new Plane())
-    expect( function() { airport.land(plane); } ).toThrow(new Error("airport full"));
+    niceAirport.land(new Plane())
+    expect( function() { niceAirport.land(plane); } ).toThrow(new Error("airport full"));
   });
 
   it('recognises the isStormy attribute', () => {
-    let a2 = new Airport(1,true)
-    let a3 = new Airport(1,false)
-    expect(a2.isStormy).toEqual(true)
-    expect(a3.isStormy).toEqual(false)
+    expect(stormyAirport.isStormy).toEqual(true)
+    expect(niceAirport.isStormy).toEqual(false)
   });
+
+  it('prevents a launch if isStormy is true', () => {
+    expect( function() { stormyAirport.launch(plane); } ).toThrow(new Error("too dangerous to launch"));
+  })
+
+  it('prevents a landing if isStormy is true', () => {
+    expect( function() { stormyAirport.land(plane); } ).toThrow(new Error("too dangerous to land"));
+  })
 
 });

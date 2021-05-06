@@ -9,11 +9,17 @@ class Airport {
   land(plane){
     if (this.hangar.length >= this.capacity) {
       throw Error('airport full');
+    } else if (this.isStormy === true) {
+      throw Error('too dangerous to land');
     } else {
       this.hangar.push(plane);
     }
   }
   launch(plane){
-    this.hangar.pop(plane);
+    if (this.isStormy === true) {
+      throw Error('too dangerous to launch');
+    } else {
+      this.hangar.pop(plane);
+    }
   }
 }
