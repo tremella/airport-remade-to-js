@@ -16,4 +16,15 @@ describe('Airport', () => {
     airport.land(plane)
     expect(airport.hangar).toContain(plane);
   });
+
+  it('launches plane, becomes empty',()=>{
+    airport.land(plane)
+    airport.launch(plane)
+    expect(airport.hangar).not.toContain(plane)
+  });
+
+  it('raises ERR if a landing would exceed capacity (of 1)',()=>{
+    airport.land(new Plane())
+    expect( function() { airport.land(plane); } ).toThrow(new Error("airport full"));
+  });
 });
