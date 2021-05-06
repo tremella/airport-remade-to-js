@@ -1,46 +1,57 @@
 'use strict';
 
 describe('Airport', () => {
-  let stormyAirport;
-  let niceAirport;
+  // let weather;
+  let airport;
   let plane;
+
   beforeEach(() => {
-    stormyAirport = new Airport(1,true);
-    niceAirport = new Airport(1,false);
+    // weather = new Weather();
+    airport = new Airport(1);
     plane = new Plane();
   });
 
   it('should be empty before landing', () => {
-    expect(niceAirport.hangar).toEqual([])
+    expect(airport.hangar).toEqual([])
   });
 
   it('allows a plane to land', () => {
-    niceAirport.land(plane)
-    expect(niceAirport.hangar).toContain(plane);
+    spyOn(airport.weather, 'isStormy').and.returnValue(false)
+
+    // spyOn(weather, 'isStormy').and.returnValue(false)
+    // we could equally spyOn the Weather class instance, instead of
+    // it as an attribute of Airport. this might be good in cases
+    // where attributes are private, but classes are not.
+    airport.land(plane)
+    expect(airport.hangar).toContain(plane);
   });
 
   it('launches plane, becomes empty',()=>{
-    niceAirport.land(plane)
-    niceAirport.launch(plane)
-    expect(niceAirport.hangar).not.toContain(plane)
+    spyOn(airport.weather, 'isStormy').and.returnValue(false)
+    airport.land(plane)
+    airport.launch(plane)
+    expect(airport.hangar).not.toContain(plane)
   });
 
   it('raises ERR if a landing would exceed capacity (of 1)',()=>{
-    niceAirport.land(new Plane())
-    expect( function() { niceAirport.land(plane); } ).toThrow(new Error("airport full"));
+    spyOn(airport.weather, 'isStormy').and.returnValue(false)
+    airport.land(new Plane())
+    expect( function() { airport.land(plane); } ).toThrow(new Error("airport full"));
   });
 
-  it('recognises the isStormy attribute', () => {
-    expect(stormyAirport.isStormy).toEqual(true)
-    expect(niceAirport.isStormy).toEqual(false)
+  it('recognises the weather attribute', () => {
+    spyOn(airport.weather, 'isStormy').and.returnValue(true)
+    expect(airport.weather.isStormy()).toEqual(true)
   });
 
-  it('prevents a launch if isStormy is true', () => {
-    expect( function() { stormyAirport.launch(plane); } ).toThrow(new Error("too dangerous to launch"));
+  it('prevents a launch if weather is true', () => {
+    spyOn(airport.weather, 'isStormy').and.returnValue(true)
+    expect( function() { airport.launch(plane); } ).toThrow(new Error("too dangerous to launch"));
   })
 
-  it('prevents a landing if isStormy is true', () => {
-    expect( function() { stormyAirport.land(plane); } ).toThrow(new Error("too dangerous to land"));
+  it('prevents a landing if weather is true', () => {
+    spyOn(airport.weather, 'isStormy').and.returnValue(true)
+    expect( function() { airport.land(plane); } ).toThrow(new Error("too dangerous to land"));
   })
 
 });
