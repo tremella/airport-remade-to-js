@@ -44,14 +44,14 @@ describe('Airport', () => {
     expect(airport.weather.isStormy()).toEqual(true)
   });
 
-  it('prevents a launch if weather is true', () => {
+  it('prevents a launch if bad weather is true', () => {
     spyOn(airport.weather, 'isStormy').and.returnValue(true)
-    expect( function() { airport.launch(plane); } ).toThrow(new Error("too dangerous to launch"));
+    expect( function() { airport.launch(plane) } ).toThrow(new Error("too dangerous to launch"));
   })
 
-  it('prevents a landing if weather is true', () => {
+  it('prevents a landing if bad weather is true', () => {
     spyOn(airport.weather, 'isStormy').and.returnValue(true)
-    expect( function() { airport.land(plane); } ).toThrow(new Error("too dangerous to land"));
+    expect( function() { airport.land(plane) } ).toThrow(new Error("too dangerous to land"));
   })
 
 });
